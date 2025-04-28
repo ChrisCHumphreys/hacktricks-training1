@@ -1,0 +1,22 @@
+name: "Read Flag From Secrets"
+
+on:
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  abuse:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configure AWS Creds
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-region: us-east-1
+          role-to-assume: arn:aws:iam::335963293212:role/sts-lab-2-target
+          role-session-name: OIDCSession
+
+      - run: aws sts get-caller-identity
+        shell: bash
